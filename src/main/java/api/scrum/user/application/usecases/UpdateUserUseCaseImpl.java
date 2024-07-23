@@ -2,6 +2,7 @@ package api.scrum.user.application.usecases;
 
 import org.modelmapper.ModelMapper;
 
+import api.scrum.exceptions.domain.ApplicationException;
 import api.scrum.user.domain.model.User;
 import api.scrum.user.domain.ports.in.update.UpdateUserReponseDTO;
 import api.scrum.user.domain.ports.in.update.UpdateUserRequestDTO;
@@ -20,8 +21,8 @@ public class UpdateUserUseCaseImpl implements UpdateUserUseCase {
 
     @Override
     public UpdateUserReponseDTO updateUser(UpdateUserRequestDTO requestDTO) {
-        // TODO: Regras de negócio
-        User user = this.modelMapper.map(requestDTO, User.class);
+        User user = this.userRepository.findById(requestDTO.getId())
+            .orElseThrow(() -> new ApplicationException(404, "User not found", "The user you are trying to delete does not exist"));
         User userSaved = this.userRepository.save(user);
         return this.modelMapper.map(userSaved, UpdateUserReponseDTO.class);
     }

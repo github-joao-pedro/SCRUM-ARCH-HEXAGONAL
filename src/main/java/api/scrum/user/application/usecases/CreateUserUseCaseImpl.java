@@ -2,6 +2,7 @@ package api.scrum.user.application.usecases;
 
 import org.modelmapper.ModelMapper;
 
+import api.scrum.exceptions.domain.ApplicationException;
 import api.scrum.user.domain.model.User;
 import api.scrum.user.domain.ports.in.create.CreateUserRequestDTO;
 import api.scrum.user.domain.ports.in.create.CreateUserResponseDTO;
@@ -20,7 +21,17 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
 
     @Override
     public CreateUserResponseDTO createUser(CreateUserRequestDTO requestDTO) {
-        // TODO: Regras de negócio
+
+        if (this.userRepository.findByNickname(requestDTO.getNickname()).isPresent()) {
+            throw new ApplicationException(409, "Invalid nickname", "User nicknames are unique, use another nickname");
+        }
+        if (this.userRepository.findByEmail(requestDTO.getEmail()).isPresent()) {
+            throw new ApplicationException(409, "Invalid email", "User email are unique, use another email");
+        }
+        if (requestDTO.getPassword().length() < 8) {
+            throw new ApplicationException(400, "Invalid password", "Password must contain at least 8 characters");
+        }
+
         User user = this.modelMapper.map(requestDTO, User.class);
         User userSaved = this.userRepository.save(user);
         return this.modelMapper.map(userSaved, CreateUserResponseDTO.class);
