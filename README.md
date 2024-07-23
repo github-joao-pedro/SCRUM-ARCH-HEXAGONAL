@@ -3,7 +3,7 @@ O SCRUM-API é uma API para gerenciamento de projetos baseada no framework Sprin
 ![Diagrama de relacionamentos](clean-arch.png)
 
 ## Futuras funcionalidades
-- [ ] Criar CRUD para usuários
+- [X] Criar CRUD para usuários
 - [ ] Tratamento de exceções
 - [ ] Criar um sistema de login e autenticação
 - [ ] Criar feat projetos
