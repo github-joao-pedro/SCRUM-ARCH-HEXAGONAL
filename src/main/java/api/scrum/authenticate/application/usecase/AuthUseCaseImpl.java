@@ -17,23 +17,26 @@ import api.scrum.user.domain.ports.out.UserRepositoryPort;
 
 public class AuthUseCaseImpl implements AuthUseCase {
 
-    private final UserRepositoryPort userRepository;
-    private final BCryptPasswordPort bCryptPassword;
+    private final UserRepositoryPort userRepositoryPort;
+    private final BCryptPasswordPort bCryptPasswordPort;
     private final AuthJwtPort jwtPort;
     private final ModelMapper modelMapper;
 
-    public AuthUseCaseImpl(UserRepositoryPort userRepository, BCryptPasswordPort bCryptPassword, AuthJwtPort jwtPort,
-            ModelMapper modelMapper) {
-        this.userRepository = userRepository;
-        this.bCryptPassword = bCryptPassword;
+    public AuthUseCaseImpl(
+        UserRepositoryPort userRepositoryPort,
+        BCryptPasswordPort bCryptPasswordPort,
+        AuthJwtPort jwtPort,
+        ModelMapper modelMapper) {
+        this.userRepositoryPort = userRepositoryPort;
+        this.bCryptPasswordPort = bCryptPasswordPort;
         this.jwtPort = jwtPort;
         this.modelMapper = modelMapper;
     }
 
     @Override
     public AuthResponseDTO auth(AuthRequestDTO requestDTO) {
-        Optional<User> user = this.userRepository.findByNickname(requestDTO.getNickname());
-        if (user.isEmpty() || !bCryptPassword.matches(requestDTO.getPassword(), user.get().getPassword())) {
+        Optional<User> user = this.userRepositoryPort.findByNickname(requestDTO.getNickname());
+        if (user.isEmpty() || !bCryptPasswordPort.matches(requestDTO.getPassword(), user.get().getPassword())) {
             throw new ApplicationException(401, "Invalid credentials", "The nickname or password you entered is incorrect");
         }
         

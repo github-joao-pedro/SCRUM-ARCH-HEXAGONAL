@@ -11,11 +11,11 @@ import api.scrum.user.domain.ports.out.UserRepositoryPort;
 
 public class ReadUserUseCaseImpl implements ReadUserUseCase {
     
-    private final UserRepositoryPort userRepository;
+    private final UserRepositoryPort userRepositoryPort;
     private final ModelMapper modelMapper;
 
-    public ReadUserUseCaseImpl(UserRepositoryPort userRepository, ModelMapper modelMapper) {
-        this.userRepository = userRepository;
+    public ReadUserUseCaseImpl(UserRepositoryPort userRepositoryPort, ModelMapper modelMapper) {
+        this.userRepositoryPort = userRepositoryPort;
         this.modelMapper = modelMapper;
     }
 
@@ -23,13 +23,13 @@ public class ReadUserUseCaseImpl implements ReadUserUseCase {
     public ReadUserResponseDTO readUser(ReadUserRequestDTO requestDTO) {
         User user = new User();
         if (requestDTO.getId() != null) {
-            user = this.userRepository.findById(requestDTO.getId())
+            user = this.userRepositoryPort.findById(requestDTO.getId())
                 .orElseThrow(() -> new ApplicationException(404,"User not found with 'id': "+requestDTO.getId(),"Provide a valid 'id'"));
         } else if (requestDTO.getNickname() != null) {
-            user = this.userRepository.findByNickname(requestDTO.getNickname())
+            user = this.userRepositoryPort.findByNickname(requestDTO.getNickname())
                 .orElseThrow(() -> new ApplicationException(404,"User not found with 'nickname': "+requestDTO.getNickname(),"Provide a valid 'nickname'"));
         } else if (requestDTO.getEmail() != null) {
-            user = this.userRepository.findByEmail(requestDTO.getEmail())
+            user = this.userRepositoryPort.findByEmail(requestDTO.getEmail())
                 .orElseThrow(() -> new ApplicationException(404,"User not found with 'email': "+requestDTO.getEmail(),"Provide a valid 'email'"));
         }
         if (user.getId() == null) {

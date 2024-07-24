@@ -11,19 +11,19 @@ import api.scrum.user.domain.ports.out.UserRepositoryPort;
 
 public class DeleteUserUseCaseImpl implements DeleteUserUseCase {
     
-    private final UserRepositoryPort userRepository;
+    private final UserRepositoryPort userRepositoryPort;
     private final ModelMapper modelMapper;
 
-    public DeleteUserUseCaseImpl(UserRepositoryPort userRepository, ModelMapper modelMapper) {
-        this.userRepository = userRepository;
+    public DeleteUserUseCaseImpl(UserRepositoryPort userRepositoryPort, ModelMapper modelMapper) {
+        this.userRepositoryPort = userRepositoryPort;
         this.modelMapper = modelMapper;
     }
 
     @Override
     public DeleteUserResponseDTO deleteUser(DeleteUserRequestDTO requestDTO) {
-        User user = this.userRepository.findById(requestDTO.getId())
+        User user = this.userRepositoryPort.findById(requestDTO.getId())
             .orElseThrow(() -> new ApplicationException(404, "User not found", "The user you are trying to delete does not exist"));
-        this.userRepository.delete(user);
+        this.userRepositoryPort.delete(user);
         return this.modelMapper.map(user, DeleteUserResponseDTO.class);
     }
 }

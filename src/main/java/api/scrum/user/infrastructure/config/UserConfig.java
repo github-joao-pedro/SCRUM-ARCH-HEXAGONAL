@@ -39,12 +39,12 @@ public class UserConfig {
     }
 
     @Bean
-    public UserService userService(UserRepositoryPort userRepository, ModelMapper modelMapper, BCryptPasswordPort bCryptPassword) {
+    public UserService userService(UserRepositoryPort userRepositoryPort, ModelMapper modelMapper, BCryptPasswordPort bCryptPassword) {
         return new UserService(
-            new CreateUserUseCaseImpl(userRepository,modelMapper,bCryptPassword),
-            new DeleteUserUseCaseImpl(userRepository,modelMapper),
-            new ReadUserUseCaseImpl(userRepository,modelMapper),
-            new UpdateUserUseCaseImpl(userRepository,modelMapper)
+            new CreateUserUseCaseImpl(userRepositoryPort,modelMapper,bCryptPassword),
+            new DeleteUserUseCaseImpl(userRepositoryPort,modelMapper),
+            new ReadUserUseCaseImpl(userRepositoryPort,modelMapper),
+            new UpdateUserUseCaseImpl(userRepositoryPort,modelMapper)
         );
     }
 }

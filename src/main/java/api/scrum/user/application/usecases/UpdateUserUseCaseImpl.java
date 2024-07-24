@@ -11,19 +11,19 @@ import api.scrum.user.domain.ports.out.UserRepositoryPort;
 
 public class UpdateUserUseCaseImpl implements UpdateUserUseCase {
     
-    private final UserRepositoryPort userRepository;
+    private final UserRepositoryPort userRepositoryPort;
     private final ModelMapper modelMapper;
 
-    public UpdateUserUseCaseImpl(UserRepositoryPort userRepository, ModelMapper modelMapper) {
-        this.userRepository = userRepository;
+    public UpdateUserUseCaseImpl(UserRepositoryPort userRepositoryPort, ModelMapper modelMapper) {
+        this.userRepositoryPort = userRepositoryPort;
         this.modelMapper = modelMapper;
     }
 
     @Override
     public UpdateUserReponseDTO updateUser(UpdateUserRequestDTO requestDTO) {
-        User user = this.userRepository.findById(requestDTO.getId())
+        User user = this.userRepositoryPort.findById(requestDTO.getId())
             .orElseThrow(() -> new ApplicationException(404, "User not found", "The user you are trying to delete does not exist"));
-        User userSaved = this.userRepository.save(user);
+        User userSaved = this.userRepositoryPort.save(user);
         return this.modelMapper.map(userSaved, UpdateUserReponseDTO.class);
     }
 }

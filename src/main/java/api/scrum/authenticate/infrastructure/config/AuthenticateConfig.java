@@ -72,9 +72,9 @@ public class AuthenticateConfig {
     }
 
     @Bean
-    public AuthService authService(UserRepositoryPort userRepository, BCryptPasswordPort bCryptPasswordPort, AuthJwtPort authJwtPort, ModelMapper modelMapper) {
+    public AuthService authService(UserRepositoryPort userRepositoryPort, BCryptPasswordPort bCryptPasswordPort, AuthJwtPort authJwtPort, ModelMapper modelMapper) {
         return new AuthService(
-            new AuthUseCaseImpl(userRepository, bCryptPasswordPort, authJwtPort, modelMapper),
+            new AuthUseCaseImpl(userRepositoryPort, bCryptPasswordPort, authJwtPort, modelMapper),
             new ValidateUseCaseImpl(authJwtPort)
         );
     }
