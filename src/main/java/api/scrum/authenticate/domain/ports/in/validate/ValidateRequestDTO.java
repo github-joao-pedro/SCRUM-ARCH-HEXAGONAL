@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ValidateRequestDTO {
-    private String token;
+    private String accessToken;
 }

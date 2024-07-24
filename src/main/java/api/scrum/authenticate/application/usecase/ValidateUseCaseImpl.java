@@ -16,7 +16,7 @@ public class ValidateUseCaseImpl implements ValidateUseCase {
 
     @Override
     public ValidateResponseDTO validate(ValidateRequestDTO requestDTO) {
-        ValidateJwtDTO jwtDTO = this.jwtPort.readToken(requestDTO.getToken());
+        ValidateJwtDTO jwtDTO = this.jwtPort.readToken(requestDTO.getAccessToken());
         return new ValidateResponseDTO("success","Token is valid",jwtDTO);
     }
     

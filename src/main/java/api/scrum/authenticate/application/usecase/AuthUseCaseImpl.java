@@ -35,7 +35,14 @@ public class AuthUseCaseImpl implements AuthUseCase {
 
     @Override
     public AuthResponseDTO auth(AuthRequestDTO requestDTO) {
-        Optional<User> user = this.userRepositoryPort.findByNickname(requestDTO.getNickname());
+
+        Optional<User> user = Optional.empty();
+        if (requestDTO.getUsername() != null) {
+            user = userRepositoryPort.findByEmail(requestDTO.getUsername());
+            if (user.isEmpty()) {
+                user = this.userRepositoryPort.findByNickname(requestDTO.getUsername());
+            }
+        }
         if (user.isEmpty() || !bCryptPasswordPort.matches(requestDTO.getPassword(), user.get().getPassword())) {
             throw new ApplicationException(401, "Invalid credentials", "The nickname or password you entered is incorrect");
         }

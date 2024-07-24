@@ -14,7 +14,7 @@ import api.scrum.authenticate.domain.ports.in.validate.ValidateRequestDTO;
 import api.scrum.authenticate.domain.ports.in.validate.ValidateResponseDTO;
 
 @RestController
-@RequestMapping(value = "api/v1/auth")
+@RequestMapping(value = "/api/v1/auth")
 public class AuthController {
     
     private final AuthService authService;
