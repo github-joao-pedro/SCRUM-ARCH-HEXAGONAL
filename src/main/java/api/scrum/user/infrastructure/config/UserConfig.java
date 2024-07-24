@@ -44,7 +44,7 @@ public class UserConfig {
             new CreateUserUseCaseImpl(userRepositoryPort,modelMapper,bCryptPassword),
             new DeleteUserUseCaseImpl(userRepositoryPort,modelMapper),
             new ReadUserUseCaseImpl(userRepositoryPort,modelMapper),
-            new UpdateUserUseCaseImpl(userRepositoryPort,modelMapper)
+            new UpdateUserUseCaseImpl(userRepositoryPort,bCryptPassword,modelMapper)
         );
     }
 }
