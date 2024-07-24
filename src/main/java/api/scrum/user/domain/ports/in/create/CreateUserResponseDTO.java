@@ -15,7 +15,6 @@ public class CreateUserResponseDTO {
     private UUID id;
     private String nickname;
     private String email;
-    private String password;
     private String name;
     private String profilePicture;
 }

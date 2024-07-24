@@ -7,14 +7,14 @@ import api.scrum.user.domain.model.User;
 import api.scrum.user.domain.ports.in.read.ReadUserRequestDTO;
 import api.scrum.user.domain.ports.in.read.ReadUserResponseDTO;
 import api.scrum.user.domain.ports.in.read.ReadUserUseCase;
-import api.scrum.user.domain.ports.out.UserRepository;
+import api.scrum.user.domain.ports.out.UserRepositoryPort;
 
 public class ReadUserUseCaseImpl implements ReadUserUseCase {
     
-    private final UserRepository userRepository;
+    private final UserRepositoryPort userRepository;
     private final ModelMapper modelMapper;
 
-    public ReadUserUseCaseImpl(UserRepository userRepository, ModelMapper modelMapper) {
+    public ReadUserUseCaseImpl(UserRepositoryPort userRepository, ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
     }

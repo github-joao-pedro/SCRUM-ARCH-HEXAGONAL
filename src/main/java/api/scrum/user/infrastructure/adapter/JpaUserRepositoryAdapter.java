@@ -1,4 +1,4 @@
-package api.scrum.user.infrastructure.repositories;
+package api.scrum.user.infrastructure.adapter;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -6,10 +6,11 @@ import java.util.UUID;
 import org.modelmapper.ModelMapper;
 
 import api.scrum.user.domain.model.User;
-import api.scrum.user.domain.ports.out.UserRepository;
+import api.scrum.user.domain.ports.out.UserRepositoryPort;
 import api.scrum.user.infrastructure.entities.UserEntity;
+import api.scrum.user.infrastructure.repositories.JpaUserRepository;
 
-public class JpaUserRepositoryAdapter implements UserRepository {
+public class JpaUserRepositoryAdapter implements UserRepositoryPort {
 
     private final JpaUserRepository jpaUserRepository;
     private final ModelMapper modelMapper;

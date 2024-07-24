@@ -1,6 +1,4 @@
-package api.scrum.user.domain.ports.in.delete;
-
-import java.util.UUID;
+package api.scrum.authenticate.domain.ports.in.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,10 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class DeleteUserResponseDTO {
-    private UUID id;
+public class AuthRequestDTO {
     private String nickname;
     private String email;
-    private String name;
-    private String profilePicture;
+    private String password;
 }

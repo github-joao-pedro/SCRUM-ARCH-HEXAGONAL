@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import api.scrum.user.domain.model.User;
 
-public interface UserRepository {
+public interface UserRepositoryPort {
     User save(User user);
     Optional<User> findById(UUID id);
     Optional<User> findByEmail(String email);

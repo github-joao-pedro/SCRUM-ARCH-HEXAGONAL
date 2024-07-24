@@ -7,14 +7,14 @@ import api.scrum.user.domain.model.User;
 import api.scrum.user.domain.ports.in.delete.DeleteUserRequestDTO;
 import api.scrum.user.domain.ports.in.delete.DeleteUserResponseDTO;
 import api.scrum.user.domain.ports.in.delete.DeleteUserUseCase;
-import api.scrum.user.domain.ports.out.UserRepository;
+import api.scrum.user.domain.ports.out.UserRepositoryPort;
 
 public class DeleteUserUseCaseImpl implements DeleteUserUseCase {
     
-    private final UserRepository userRepository;
+    private final UserRepositoryPort userRepository;
     private final ModelMapper modelMapper;
 
-    public DeleteUserUseCaseImpl(UserRepository userRepository, ModelMapper modelMapper) {
+    public DeleteUserUseCaseImpl(UserRepositoryPort userRepository, ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
     }

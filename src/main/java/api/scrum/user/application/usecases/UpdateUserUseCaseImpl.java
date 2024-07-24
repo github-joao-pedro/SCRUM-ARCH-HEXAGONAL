@@ -7,14 +7,14 @@ import api.scrum.user.domain.model.User;
 import api.scrum.user.domain.ports.in.update.UpdateUserReponseDTO;
 import api.scrum.user.domain.ports.in.update.UpdateUserRequestDTO;
 import api.scrum.user.domain.ports.in.update.UpdateUserUseCase;
-import api.scrum.user.domain.ports.out.UserRepository;
+import api.scrum.user.domain.ports.out.UserRepositoryPort;
 
 public class UpdateUserUseCaseImpl implements UpdateUserUseCase {
     
-    private final UserRepository userRepository;
+    private final UserRepositoryPort userRepository;
     private final ModelMapper modelMapper;
 
-    public UpdateUserUseCaseImpl(UserRepository userRepository, ModelMapper modelMapper) {
+    public UpdateUserUseCaseImpl(UserRepositoryPort userRepository, ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
     }
