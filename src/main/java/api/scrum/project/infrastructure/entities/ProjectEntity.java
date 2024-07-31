@@ -1,13 +1,16 @@
 package api.scrum.project.infrastructure.entities;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
+import api.scrum.relation_user_project.infrastructure.entities.RelationUserProjectEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,4 +46,7 @@ public class ProjectEntity {
     
     @Column
     private Integer sprintAmmount;
+
+    @OneToMany(mappedBy = "project")
+    private List<RelationUserProjectEntity> relation;
 }

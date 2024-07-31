@@ -12,27 +12,39 @@ import api.scrum.project.domain.ports.in.read.ReadProjectUseCase;
 import api.scrum.project.domain.ports.in.update.UpdateProjectRequestDTO;
 import api.scrum.project.domain.ports.in.update.UpdateProjectResponseDTO;
 import api.scrum.project.domain.ports.in.update.UpdateProjectUseCase;
+import api.scrum.project.domain.ports.in.users.AppendUserUseCase;
+import api.scrum.project.domain.ports.in.users.RemoveUserUseCase;
+import api.scrum.project.domain.ports.in.users.UsersRequestDTO;
+import api.scrum.project.domain.ports.in.users.UsersResponseDTO;
 
 public class ProjectService implements
     CreateProjectUseCase,
     DeleteProjectUseCase,
     ReadProjectUseCase,
-    UpdateProjectUseCase {
+    UpdateProjectUseCase,
+    AppendUserUseCase,
+    RemoveUserUseCase {
 
     private final CreateProjectUseCase createProjectUseCase;
     private final DeleteProjectUseCase deleteProjectUseCase;
     private final ReadProjectUseCase readProjectUseCase;
     private final UpdateProjectUseCase updateProjectUseCase;
+    private final AppendUserUseCase appendUserUseCase;
+    private final RemoveUserUseCase removeUserUseCase;
 
     public ProjectService(
         CreateProjectUseCase createProjectUseCase,
         DeleteProjectUseCase deleteProjectUseCase,
         ReadProjectUseCase readProjectUseCase,
-        UpdateProjectUseCase updateProjectUseCase) {
+        UpdateProjectUseCase updateProjectUseCase,
+        AppendUserUseCase appendUserUseCase,
+        RemoveUserUseCase removeUserUseCase) {
         this.createProjectUseCase = createProjectUseCase;
         this.deleteProjectUseCase = deleteProjectUseCase;
         this.readProjectUseCase = readProjectUseCase;
         this.updateProjectUseCase = updateProjectUseCase;
+        this.appendUserUseCase = appendUserUseCase;
+        this.removeUserUseCase = removeUserUseCase;
     }
     @Override
     public CreateProjectResponseDTO createProject(CreateProjectRequestDTO requestDTO) {
@@ -49,5 +61,13 @@ public class ProjectService implements
     @Override
     public UpdateProjectResponseDTO updateProject(UpdateProjectRequestDTO requestDTO) {
         return this.updateProjectUseCase.updateProject(requestDTO);
+    }
+    @Override
+    public UsersResponseDTO appendUser(UsersRequestDTO requestDTO) {
+        return this.appendUserUseCase.appendUser(requestDTO);
+    }
+    @Override
+    public UsersResponseDTO removeUser(UsersRequestDTO requestDTO) {
+        return this.removeUserUseCase.removeUser(requestDTO);
     }
 }

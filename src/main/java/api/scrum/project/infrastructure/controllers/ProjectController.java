@@ -20,6 +20,8 @@ import api.scrum.project.domain.ports.in.read.ReadProjectRequestDTO;
 import api.scrum.project.domain.ports.in.read.ReadProjectResponseDTO;
 import api.scrum.project.domain.ports.in.update.UpdateProjectRequestDTO;
 import api.scrum.project.domain.ports.in.update.UpdateProjectResponseDTO;
+import api.scrum.project.domain.ports.in.users.UsersRequestDTO;
+import api.scrum.project.domain.ports.in.users.UsersResponseDTO;
 
 @RestController
 @RequestMapping("/api/v1/project")
@@ -50,4 +52,13 @@ public class ProjectController {
     public UpdateProjectResponseDTO update(@RequestBody UpdateProjectRequestDTO requestDTO) {
         return this.projectService.updateProject(requestDTO);
     }
+    @PostMapping("/user")
+    public UsersResponseDTO appendUser(@RequestBody UsersRequestDTO requestDTO) {
+        return this.projectService.appendUser(requestDTO);
+    }
+    @DeleteMapping("/user")
+    public UsersResponseDTO removeUser(@RequestBody UsersRequestDTO requestDTO) {
+        return this.projectService.removeUser(requestDTO);
+    }
+    
 }

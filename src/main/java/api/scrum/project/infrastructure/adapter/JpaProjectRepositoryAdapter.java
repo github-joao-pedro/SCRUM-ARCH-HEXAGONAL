@@ -4,12 +4,14 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
 
 import api.scrum.project.domain.model.Project;
 import api.scrum.project.domain.ports.out.ProjectRepositoryPort;
 import api.scrum.project.infrastructure.entities.ProjectEntity;
 import api.scrum.project.infrastructure.repositories.JpaProjectRepository;
 
+@Component
 public class JpaProjectRepositoryAdapter implements ProjectRepositoryPort {
 
     private final JpaProjectRepository jpaProjectRepository;

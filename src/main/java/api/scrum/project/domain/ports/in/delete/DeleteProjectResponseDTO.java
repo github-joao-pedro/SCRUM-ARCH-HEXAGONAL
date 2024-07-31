@@ -1,8 +1,10 @@
 package api.scrum.project.domain.ports.in.delete;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
+import api.scrum.user.domain.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,4 +22,5 @@ public class DeleteProjectResponseDTO {
     private Date dateTo;
     private Integer sprintDuration;
     private Integer sprintAmmount;
+    private List<User> users;
 }
