@@ -5,12 +5,12 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 
 import api.scrum.exceptions.domain.ApplicationException;
+import api.scrum.project.domain.model.UserPublic;
 import api.scrum.project.domain.ports.in.users.RemoveUserUseCase;
 import api.scrum.project.domain.ports.in.users.UsersRequestDTO;
 import api.scrum.project.domain.ports.in.users.UsersResponseDTO;
 import api.scrum.relation_user_project.domain.model.RelationUserProject;
 import api.scrum.relation_user_project.domain.ports.out.RelationUserProjectRepositoryPort;
-import api.scrum.user.domain.model.UserPublic;
 
 public class RemoveUserUseCaseImpl implements RemoveUserUseCase {
 
@@ -24,16 +24,19 @@ public class RemoveUserUseCaseImpl implements RemoveUserUseCase {
     @Override
     public UsersResponseDTO removeUser(UsersRequestDTO requestDTO) {
         
-        RelationUserProject relation = this.relationUserProjectRepositoryPort.findByUserAndProjectId(requestDTO.getUserId(), requestDTO.getProjectId())
+        RelationUserProject relationExisting = this.relationUserProjectRepositoryPort.findByUserAndProjectId(requestDTO.getUserId(), requestDTO.getProjectId())
             .orElseThrow(() -> new ApplicationException(404, "User not in project", "The user you are trying to remove is not a participant in the project"));
         
-        relationUserProjectRepositoryPort.delete(relation);
+        relationUserProjectRepositoryPort.delete(relationExisting);
 
-        List<UserPublic> users = this.relationUserProjectRepositoryPort.findUsersByProjectId(requestDTO.getProjectId())
-            .orElseThrow(() -> new ApplicationException(404, "Users not found", "No users found in this project"))
-            .stream().map(user -> this.modelMapper.map(user, UserPublic.class)).toList();
-
-        UsersResponseDTO responseDTO = this.modelMapper.map(relation.getProject(), UsersResponseDTO.class);
+        List<RelationUserProject> relations = this.relationUserProjectRepositoryPort.findByProjectId(relationExisting.getProject().getId())
+            .orElseThrow(() -> new ApplicationException(404, "Users not found", "No users found in this project"));
+        List<UserPublic> users = relations.stream().map(relation -> {
+            UserPublic userPublic = this.modelMapper.map(relation.getUser(), UserPublic.class);
+            userPublic.setRole(relation.getRole());
+            return userPublic;
+        }).toList();
+        UsersResponseDTO responseDTO = this.modelMapper.map(relationExisting.getProject(), UsersResponseDTO.class);
         responseDTO.setUsers(users);
         return responseDTO;
     }

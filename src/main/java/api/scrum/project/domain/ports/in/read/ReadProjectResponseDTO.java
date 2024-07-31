@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import api.scrum.user.domain.model.UserPublic;
+import api.scrum.project.domain.model.UserPublic;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

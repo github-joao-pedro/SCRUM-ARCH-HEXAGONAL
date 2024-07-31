@@ -6,12 +6,13 @@ import org.modelmapper.ModelMapper;
 
 import api.scrum.exceptions.domain.ApplicationException;
 import api.scrum.project.domain.model.Project;
+import api.scrum.project.domain.model.UserPublic;
 import api.scrum.project.domain.ports.in.update.UpdateProjectRequestDTO;
 import api.scrum.project.domain.ports.in.update.UpdateProjectResponseDTO;
 import api.scrum.project.domain.ports.in.update.UpdateProjectUseCase;
 import api.scrum.project.domain.ports.out.ProjectRepositoryPort;
+import api.scrum.relation_user_project.domain.model.RelationUserProject;
 import api.scrum.relation_user_project.domain.ports.out.RelationUserProjectRepositoryPort;
-import api.scrum.user.domain.model.UserPublic;
 
 public class UpdateProjectUseCaseImpl implements UpdateProjectUseCase {
 
@@ -51,9 +52,14 @@ public class UpdateProjectUseCaseImpl implements UpdateProjectUseCase {
         Project newProject = this.projectRepositoryPort.save(existingProject);
         UpdateProjectResponseDTO responseDTO = this.modelMapper.map(newProject, UpdateProjectResponseDTO.class);
         
-        List<UserPublic> users = this.relationUserProjectRepositoryPort.findUsersByProjectId(requestDTO.getId())
-            .orElseThrow(() -> new ApplicationException(404, "Users not found", "No users found in this project"))
-            .stream().map(user -> this.modelMapper.map(user, UserPublic.class)).toList();
+        List<RelationUserProject> relations = this.relationUserProjectRepositoryPort.findByProjectId(requestDTO.getId())
+            .orElseThrow(() -> new ApplicationException(404, "Users not found", "No users found in this project"));
+        List<UserPublic> users = relations.stream().map(relation -> {
+            UserPublic userPublic = this.modelMapper.map(relation.getUser(), UserPublic.class);
+            userPublic.setRole(relation.getRole());
+            return userPublic;
+        }).toList();
+        
         responseDTO.setUsers(users);
         return responseDTO;
     }

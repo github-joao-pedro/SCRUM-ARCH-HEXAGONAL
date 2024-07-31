@@ -1,7 +1,8 @@
-package api.scrum.user.domain.model;
+package api.scrum.project.domain.model;
 
 import java.util.UUID;
 
+import api.scrum.relation_user_project.domain.model.EnumRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,4 +18,5 @@ public class UserPublic {
     private String email;
     private String name;
     private String profilePicture;
+    private EnumRole role;
 }

@@ -3,9 +3,12 @@ package api.scrum.relation_user_project.infrastructure.entities;
 import java.util.UUID;
 
 import api.scrum.project.infrastructure.entities.ProjectEntity;
+import api.scrum.relation_user_project.domain.model.EnumRole;
 import api.scrum.user.infrastructure.entities.UserEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -33,6 +36,7 @@ public class RelationUserProjectEntity {
     @JoinColumn(name = "project_id")
     private ProjectEntity project;
 
-    @Column(name = "role")
-    private String role;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
+    private EnumRole role;
 }

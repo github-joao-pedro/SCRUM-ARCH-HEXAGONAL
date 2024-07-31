@@ -17,5 +17,5 @@ public class RelationUserProject {
     private UUID id;
     private User user;
     private Project project;
-    private String role;
+    private EnumRole role;
 }
