@@ -26,7 +26,7 @@ public class UpdateUserUseCaseImpl implements UpdateUserUseCase {
     @Override
     public UpdateUserReponseDTO updateUser(UpdateUserRequestDTO requestDTO) {
         User existingUser = this.userRepositoryPort.findById(requestDTO.getId())
-            .orElseThrow(() -> new ApplicationException(404, "User not found", "The user you are trying to delete does not exist"));
+            .orElseThrow(() -> new ApplicationException(404, "User not found", "The user you are trying to update does not exist"));
         
         if (requestDTO.getNickname() != null) {
             if (!this.userRepositoryPort.findByNickname(requestDTO.getNickname()).isPresent()) {
