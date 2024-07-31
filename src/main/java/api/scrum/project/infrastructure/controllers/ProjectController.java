@@ -60,5 +60,8 @@ public class ProjectController {
     public UsersResponseDTO removeUser(@RequestBody UsersRequestDTO requestDTO) {
         return this.projectService.removeUser(requestDTO);
     }
-    
+    @PutMapping("/user")
+    public UsersResponseDTO updateRole(@RequestBody UsersRequestDTO requestDTO) {
+        return this.projectService.updateRole(requestDTO);
+    }
 }

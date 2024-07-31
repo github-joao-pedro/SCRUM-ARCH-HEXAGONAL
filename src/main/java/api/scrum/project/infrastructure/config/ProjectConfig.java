@@ -11,6 +11,7 @@ import api.scrum.project.application.usecases.DeleteProjectUseCaseImpl;
 import api.scrum.project.application.usecases.ReadProjectUseCaseImpl;
 import api.scrum.project.application.usecases.RemoveUserUseCaseImpl;
 import api.scrum.project.application.usecases.UpdateProjectUseCaseImpl;
+import api.scrum.project.application.usecases.UpdateRoleUseCaseImpl;
 import api.scrum.project.domain.ports.out.ProjectRepositoryPort;
 import api.scrum.project.infrastructure.adapter.JpaProjectRepositoryAdapter;
 import api.scrum.project.infrastructure.repositories.JpaProjectRepository;
@@ -44,6 +45,7 @@ public class ProjectConfig {
             new ReadProjectUseCaseImpl(projectRepositoryPort, relationUserProjectRepositoryPort, modelMapper), 
             new UpdateProjectUseCaseImpl(projectRepositoryPort, relationUserProjectRepositoryPort, modelMapper),
             new AppendUserUseCaseImpl(projectRepositoryPort, userRepositoryPort, relationUserProjectRepositoryPort, modelMapper),
-            new RemoveUserUseCaseImpl(relationUserProjectRepositoryPort, modelMapper));
+            new RemoveUserUseCaseImpl(relationUserProjectRepositoryPort, modelMapper),
+            new UpdateRoleUseCaseImpl(relationUserProjectRepositoryPort, modelMapper));
     }
 }

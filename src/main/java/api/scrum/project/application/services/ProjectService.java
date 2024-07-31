@@ -14,6 +14,7 @@ import api.scrum.project.domain.ports.in.update.UpdateProjectResponseDTO;
 import api.scrum.project.domain.ports.in.update.UpdateProjectUseCase;
 import api.scrum.project.domain.ports.in.users.AppendUserUseCase;
 import api.scrum.project.domain.ports.in.users.RemoveUserUseCase;
+import api.scrum.project.domain.ports.in.users.UpdateRoleUseCase;
 import api.scrum.project.domain.ports.in.users.UsersRequestDTO;
 import api.scrum.project.domain.ports.in.users.UsersResponseDTO;
 
@@ -23,7 +24,8 @@ public class ProjectService implements
     ReadProjectUseCase,
     UpdateProjectUseCase,
     AppendUserUseCase,
-    RemoveUserUseCase {
+    RemoveUserUseCase,
+    UpdateRoleUseCase {
 
     private final CreateProjectUseCase createProjectUseCase;
     private final DeleteProjectUseCase deleteProjectUseCase;
@@ -31,6 +33,7 @@ public class ProjectService implements
     private final UpdateProjectUseCase updateProjectUseCase;
     private final AppendUserUseCase appendUserUseCase;
     private final RemoveUserUseCase removeUserUseCase;
+    private final UpdateRoleUseCase updateRoleUseCase;
 
     public ProjectService(
         CreateProjectUseCase createProjectUseCase,
@@ -38,13 +41,15 @@ public class ProjectService implements
         ReadProjectUseCase readProjectUseCase,
         UpdateProjectUseCase updateProjectUseCase,
         AppendUserUseCase appendUserUseCase,
-        RemoveUserUseCase removeUserUseCase) {
+        RemoveUserUseCase removeUserUseCase,
+        UpdateRoleUseCase updateRoleUseCase) {
         this.createProjectUseCase = createProjectUseCase;
         this.deleteProjectUseCase = deleteProjectUseCase;
         this.readProjectUseCase = readProjectUseCase;
         this.updateProjectUseCase = updateProjectUseCase;
         this.appendUserUseCase = appendUserUseCase;
         this.removeUserUseCase = removeUserUseCase;
+        this.updateRoleUseCase = updateRoleUseCase;
     }
     @Override
     public CreateProjectResponseDTO createProject(CreateProjectRequestDTO requestDTO) {
@@ -69,5 +74,9 @@ public class ProjectService implements
     @Override
     public UsersResponseDTO removeUser(UsersRequestDTO requestDTO) {
         return this.removeUserUseCase.removeUser(requestDTO);
+    }
+    @Override
+    public UsersResponseDTO updateRole(UsersRequestDTO requestDTO) {
+        return this.updateRoleUseCase.updateRole(requestDTO);
     }
 }
