@@ -42,7 +42,7 @@ public class ProjectConfig {
             new CreateProjectUseCaseImpl(projectRepositoryPort, userRepositoryPort, relationUserProjectRepositoryPort, modelMapper), 
             new DeleteProjectUseCaseImpl(projectRepositoryPort, relationUserProjectRepositoryPort, modelMapper), 
             new ReadProjectUseCaseImpl(projectRepositoryPort, relationUserProjectRepositoryPort, modelMapper), 
-            new UpdateProjectUseCaseImpl(projectRepositoryPort, modelMapper),
+            new UpdateProjectUseCaseImpl(projectRepositoryPort, relationUserProjectRepositoryPort, modelMapper),
             new AppendUserUseCaseImpl(projectRepositoryPort, userRepositoryPort, relationUserProjectRepositoryPort, modelMapper),
             new RemoveUserUseCaseImpl(relationUserProjectRepositoryPort, modelMapper));
     }

@@ -14,6 +14,7 @@ import api.scrum.project.domain.ports.out.ProjectRepositoryPort;
 import api.scrum.relation_user_project.domain.model.RelationUserProject;
 import api.scrum.relation_user_project.domain.ports.out.RelationUserProjectRepositoryPort;
 import api.scrum.user.domain.model.User;
+import api.scrum.user.domain.model.UserPublic;
 import api.scrum.user.domain.ports.out.UserRepositoryPort;
 
 public class AppendUserUseCaseImpl implements AppendUserUseCase {
@@ -34,10 +35,10 @@ public class AppendUserUseCaseImpl implements AppendUserUseCase {
     @Override
     public UsersResponseDTO appendUser(UsersRequestDTO requestDTO) {
         
-        Project project = this.projectRepositoryPort.findById(requestDTO.getProjectId())
+        Project projectExiting = this.projectRepositoryPort.findById(requestDTO.getProjectId())
             .orElseThrow(() -> new ApplicationException(404, "Project not found", "The project you are trying to add the user to does not exist"));
         
-        User user = this.userRepositoryPort.findById(requestDTO.getUserId())
+        User userExiting = this.userRepositoryPort.findById(requestDTO.getUserId())
             .orElseThrow(() -> new ApplicationException(404, "User not found", "The user you are trying to add does not exist"));
         
         Optional<RelationUserProject> relationExisting = this.relationUserProjectRepositoryPort.findByUserAndProjectId(requestDTO.getUserId(), requestDTO.getProjectId());
@@ -45,13 +46,15 @@ public class AppendUserUseCaseImpl implements AppendUserUseCase {
             throw new ApplicationException(409, "User already a member", "The user is already a participant in the project");
         }
 
-        RelationUserProject relation = RelationUserProject.builder().user(user).project(project).role(requestDTO.getRole()).build();
+        RelationUserProject relation = RelationUserProject.builder().user(userExiting).project(projectExiting).role(requestDTO.getRole()).build();
         relationUserProjectRepositoryPort.save(relation);
 
-        List<User> users = relationUserProjectRepositoryPort.findUsersByProjectId(requestDTO.getProjectId())
-            .orElseThrow(() -> new ApplicationException(404, "Users not found", "No users found in this project"));
+        
+        List<UserPublic> users = this.relationUserProjectRepositoryPort.findUsersByProjectId(projectExiting.getId())
+            .orElseThrow(() -> new ApplicationException(404, "Users not found", "No users found in this project"))
+            .stream().map(user -> this.modelMapper.map(user, UserPublic.class)).toList();
 
-        UsersResponseDTO responseDTO = this.modelMapper.map(project, UsersResponseDTO.class);
+        UsersResponseDTO responseDTO = this.modelMapper.map(projectExiting, UsersResponseDTO.class);
         responseDTO.setUsers(users);
         return responseDTO;
     }

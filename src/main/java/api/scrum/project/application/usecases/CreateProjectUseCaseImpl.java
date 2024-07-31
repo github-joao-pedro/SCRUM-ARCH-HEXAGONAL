@@ -13,6 +13,7 @@ import api.scrum.project.domain.ports.out.ProjectRepositoryPort;
 import api.scrum.relation_user_project.domain.model.RelationUserProject;
 import api.scrum.relation_user_project.domain.ports.out.RelationUserProjectRepositoryPort;
 import api.scrum.user.domain.model.User;
+import api.scrum.user.domain.model.UserPublic;
 import api.scrum.user.domain.ports.out.UserRepositoryPort;
 
 public class CreateProjectUseCaseImpl implements CreateProjectUseCase {
@@ -44,7 +45,7 @@ public class CreateProjectUseCaseImpl implements CreateProjectUseCase {
         RelationUserProject savedRelation = this.relationUserProjectRepositoryPort.save(relation);
 
         CreateProjectResponseDTO responseDTO = this.modelMapper.map(savedProject, CreateProjectResponseDTO.class);
-        responseDTO.setUsers(List.of(savedRelation.getUser()));
+        responseDTO.setUsers(List.of(this.modelMapper.map(savedRelation.getUser(), UserPublic.class)));
         return responseDTO;
     }
     

@@ -1,6 +1,6 @@
 package api.scrum.project.application.usecases;
 
-import api.scrum.user.domain.model.User;
+import api.scrum.user.domain.model.UserPublic;
 
 import java.util.List;
 
@@ -31,9 +31,10 @@ public class ReadProjectUseCaseImpl implements ReadProjectUseCase {
             Project project = this.projectRepositoryPort.findById(requestDTO.getId())
                 .orElseThrow(() -> new ApplicationException(404, "Project not found with 'id': "+requestDTO.getId(), "Provide a valid 'id'"));
 
-            List<User> users = this.relationUserProjectRepositoryPort.findUsersByProjectId(project.getId())
-                .orElseThrow(() -> new ApplicationException(404, "Users not found", "No users found in this project"));
-            
+            List<UserPublic> users = this.relationUserProjectRepositoryPort.findUsersByProjectId(project.getId())
+                .orElseThrow(() -> new ApplicationException(404, "Users not found", "No users found in this project"))
+                .stream().map(user -> this.modelMapper.map(user, UserPublic.class)).toList();
+
             ReadProjectResponseDTO response = this.modelMapper.map(project, ReadProjectResponseDTO.class);
             response.setUsers(users);
             return response;

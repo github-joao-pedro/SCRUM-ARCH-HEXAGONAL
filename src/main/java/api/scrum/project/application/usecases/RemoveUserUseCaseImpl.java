@@ -10,7 +10,7 @@ import api.scrum.project.domain.ports.in.users.UsersRequestDTO;
 import api.scrum.project.domain.ports.in.users.UsersResponseDTO;
 import api.scrum.relation_user_project.domain.model.RelationUserProject;
 import api.scrum.relation_user_project.domain.ports.out.RelationUserProjectRepositoryPort;
-import api.scrum.user.domain.model.User;
+import api.scrum.user.domain.model.UserPublic;
 
 public class RemoveUserUseCaseImpl implements RemoveUserUseCase {
 
@@ -29,8 +29,9 @@ public class RemoveUserUseCaseImpl implements RemoveUserUseCase {
         
         relationUserProjectRepositoryPort.delete(relation);
 
-        List<User> users = relationUserProjectRepositoryPort.findUsersByProjectId(requestDTO.getProjectId())
-            .orElseThrow(() -> new ApplicationException(404, "Users not found", "No users found in this project"));
+        List<UserPublic> users = this.relationUserProjectRepositoryPort.findUsersByProjectId(requestDTO.getProjectId())
+            .orElseThrow(() -> new ApplicationException(404, "Users not found", "No users found in this project"))
+            .stream().map(user -> this.modelMapper.map(user, UserPublic.class)).toList();
 
         UsersResponseDTO responseDTO = this.modelMapper.map(relation.getProject(), UsersResponseDTO.class);
         responseDTO.setUsers(users);
