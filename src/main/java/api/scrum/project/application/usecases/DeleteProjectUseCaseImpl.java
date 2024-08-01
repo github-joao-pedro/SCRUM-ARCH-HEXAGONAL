@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 
+import api.scrum.backlog.domain.model.Backlog;
+import api.scrum.backlog.domain.ports.out.BacklogRepositoryPort;
 import api.scrum.exceptions.domain.ApplicationException;
 import api.scrum.project.domain.model.Project;
 import api.scrum.project.domain.model.UserPublic;
@@ -19,11 +21,17 @@ public class DeleteProjectUseCaseImpl implements DeleteProjectUseCase {
     
     private final ProjectRepositoryPort projectRepositoryPort;
     private final RelationUserProjectRepositoryPort relationUserProjectRepositoryPort;
+    private final BacklogRepositoryPort backlogRepositoryPort;
     private final ModelMapper modelMapper;
     
-    public DeleteProjectUseCaseImpl(ProjectRepositoryPort projectRepositoryPort, RelationUserProjectRepositoryPort relationUserProjectRepositoryPort, ModelMapper modelMapper) {
+    public DeleteProjectUseCaseImpl(
+        ProjectRepositoryPort projectRepositoryPort,
+        RelationUserProjectRepositoryPort relationUserProjectRepositoryPort,
+        BacklogRepositoryPort backlogRepositoryPort,
+        ModelMapper modelMapper) {
         this.projectRepositoryPort = projectRepositoryPort;
         this.relationUserProjectRepositoryPort = relationUserProjectRepositoryPort;
+        this.backlogRepositoryPort = backlogRepositoryPort;
         this.modelMapper = modelMapper;
     }
 
@@ -40,6 +48,10 @@ public class DeleteProjectUseCaseImpl implements DeleteProjectUseCase {
         
         Optional<List<RelationUserProject>> relationUserProject = this.relationUserProjectRepositoryPort.findByProjectId(requestDTO.getId());
         relationUserProject.ifPresent(this.relationUserProjectRepositoryPort::deleteAll);
+
+        Backlog backlog = this.backlogRepositoryPort.findByProjectId(requestDTO.getId())
+            .orElseThrow(() -> new ApplicationException(404, "Backlog not found", "No backlog found in this project"));
+        this.backlogRepositoryPort.delete(backlog);
 
         Project project = this.projectRepositoryPort.findById(requestDTO.getId())
             .orElseThrow(() -> new ApplicationException(404, "Project not found", "The project you are trying to delete does not exist"));

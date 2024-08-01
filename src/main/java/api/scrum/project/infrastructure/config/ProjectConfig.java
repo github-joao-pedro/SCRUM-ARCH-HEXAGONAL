@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import api.scrum.backlog.domain.ports.out.BacklogRepositoryPort;
 import api.scrum.project.application.services.ProjectService;
 import api.scrum.project.application.usecases.AppendUserUseCaseImpl;
 import api.scrum.project.application.usecases.CreateProjectUseCaseImpl;
@@ -38,10 +39,11 @@ public class ProjectConfig {
         ProjectRepositoryPort projectRepositoryPort,
         UserRepositoryPort userRepositoryPort,
         RelationUserProjectRepositoryPort relationUserProjectRepositoryPort,
+        BacklogRepositoryPort backlogRepositoryPort,
         ModelMapper modelMapper) {
         return new ProjectService(
-            new CreateProjectUseCaseImpl(projectRepositoryPort, userRepositoryPort, relationUserProjectRepositoryPort, modelMapper), 
-            new DeleteProjectUseCaseImpl(projectRepositoryPort, relationUserProjectRepositoryPort, modelMapper), 
+            new CreateProjectUseCaseImpl(projectRepositoryPort, userRepositoryPort, relationUserProjectRepositoryPort, backlogRepositoryPort, modelMapper), 
+            new DeleteProjectUseCaseImpl(projectRepositoryPort, relationUserProjectRepositoryPort, backlogRepositoryPort, modelMapper), 
             new ReadProjectUseCaseImpl(projectRepositoryPort, relationUserProjectRepositoryPort, modelMapper), 
             new UpdateProjectUseCaseImpl(projectRepositoryPort, relationUserProjectRepositoryPort, modelMapper),
             new AppendUserUseCaseImpl(projectRepositoryPort, userRepositoryPort, relationUserProjectRepositoryPort, modelMapper),

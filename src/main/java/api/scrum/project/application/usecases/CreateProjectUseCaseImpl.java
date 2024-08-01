@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 
+import api.scrum.backlog.domain.model.Backlog;
+import api.scrum.backlog.domain.ports.out.BacklogRepositoryPort;
 import api.scrum.exceptions.domain.ApplicationException;
 import api.scrum.project.domain.model.Project;
 import api.scrum.project.domain.model.UserPublic;
@@ -21,14 +23,20 @@ public class CreateProjectUseCaseImpl implements CreateProjectUseCase {
     private final ProjectRepositoryPort projectRepositoryPort;
     private final UserRepositoryPort userRepositoryPort;
     private final RelationUserProjectRepositoryPort relationUserProjectRepositoryPort;
+    private final BacklogRepositoryPort backlogRepositoryPort;
     private final ModelMapper modelMapper;
 
 
-    public CreateProjectUseCaseImpl(ProjectRepositoryPort projectRepositoryPort, UserRepositoryPort userRepositoryPort,
-            RelationUserProjectRepositoryPort relationUserProjectRepositoryPort, ModelMapper modelMapper) {
+    public CreateProjectUseCaseImpl(
+        ProjectRepositoryPort projectRepositoryPort,
+        UserRepositoryPort userRepositoryPort,
+        RelationUserProjectRepositoryPort relationUserProjectRepositoryPort,
+        BacklogRepositoryPort backlogRepositoryPort,
+        ModelMapper modelMapper) {
         this.projectRepositoryPort = projectRepositoryPort;
         this.userRepositoryPort = userRepositoryPort;
         this.relationUserProjectRepositoryPort = relationUserProjectRepositoryPort;
+        this.backlogRepositoryPort = backlogRepositoryPort;
         this.modelMapper = modelMapper;
     }
 
@@ -46,10 +54,13 @@ public class CreateProjectUseCaseImpl implements CreateProjectUseCase {
         Project project = this.modelMapper.map(requestDTO, Project.class);
         Project savedProject = this.projectRepositoryPort.save(project);
 
+        Backlog backlog = Backlog.builder().project(savedProject).build();
+        this.backlogRepositoryPort.save(backlog);
+
         RelationUserProject newRelation = RelationUserProject.builder().user(existingUser).project(savedProject).role(requestDTO.getRole()).build();
         this.relationUserProjectRepositoryPort.save(newRelation);
 
-        List<RelationUserProject> relations = this.relationUserProjectRepositoryPort.findByProjectId(project.getId())
+        List<RelationUserProject> relations = this.relationUserProjectRepositoryPort.findByProjectId(savedProject.getId())
                 .orElseThrow(() -> new ApplicationException(404, "Users not found", "No users found in this project"));
         List<UserPublic> users = relations.stream().map(relation -> {
             UserPublic userPublic = this.modelMapper.map(relation.getUser(), UserPublic.class);
