@@ -12,6 +12,6 @@ import api.scrum.status.infrastructure.entities.StatusEntity;
 
 public interface JpaStatusRepository extends JpaRepository<StatusEntity, UUID> {
     
-    @Query("FROM StatusEntity r WHERE r.project.id = :projectId")
+    @Query("FROM StatusEntity s WHERE s.project.id = :projectId")
     Optional<List<StatusEntity>> findByProjectId(@Param("projectId") UUID projectId);
 }
