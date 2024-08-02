@@ -13,6 +13,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ReadStatusResponseDTO {
-    List<StatusDTO> status;
-    Project project;
+    private List<StatusDTO> status;
+    private Project project;
 }
