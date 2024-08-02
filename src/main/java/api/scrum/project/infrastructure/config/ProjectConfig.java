@@ -17,8 +17,6 @@ import api.scrum.project.domain.ports.out.ProjectRepositoryPort;
 import api.scrum.project.infrastructure.adapter.JpaProjectRepositoryAdapter;
 import api.scrum.project.infrastructure.repositories.JpaProjectRepository;
 import api.scrum.relation_user_project.domain.ports.out.RelationUserProjectRepositoryPort;
-import api.scrum.relation_user_project.infrastructure.adapter.JpaRelationUserProjectAdapter;
-import api.scrum.relation_user_project.infrastructure.repositories.JpaRelationUserProjectRepository;
 import api.scrum.user.domain.ports.out.UserRepositoryPort;
 
 @Configuration
@@ -27,11 +25,6 @@ public class ProjectConfig {
     @Bean
     public ProjectRepositoryPort projectRepositoryPort(JpaProjectRepository jpaProjectRepository, ModelMapper modelMapper) {
         return new JpaProjectRepositoryAdapter(jpaProjectRepository, modelMapper);
-    }
-
-    @Bean
-    public RelationUserProjectRepositoryPort relationUserProjectRepositoryPort(JpaRelationUserProjectRepository relationUserProjectRepository, ModelMapper modelMapper) {
-        return new JpaRelationUserProjectAdapter(relationUserProjectRepository, modelMapper);
     }
 
     @Bean
