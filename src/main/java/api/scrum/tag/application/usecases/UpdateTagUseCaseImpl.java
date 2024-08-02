@@ -19,7 +19,7 @@ public class UpdateTagUseCaseImpl implements UpdateTagUseCase {
         this.modelMapper = modelMapper;
     }
     @Override
-    public UpdateTagResponseDTO updateStatus(UpdateTagRequestDTO requestDTO) {
+    public UpdateTagResponseDTO updateTag(UpdateTagRequestDTO requestDTO) {
         Tag tag = this.tagRepositoryPort.findById(requestDTO.getId())
             .orElseThrow(() -> new ApplicationException(404, "Tag not found", ""));
         if (requestDTO.getName() != null) {

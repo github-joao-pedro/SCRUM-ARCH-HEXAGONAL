@@ -19,7 +19,7 @@ public class CreateTagUseCaseImpl implements CreateTagUseCase {
     }
 
     @Override
-    public CreateTagResponseDTO createStatus(CreateTagRequestDTO requestDTO) {
+    public CreateTagResponseDTO createTag(CreateTagRequestDTO requestDTO) {
         Tag tag = this.modelMapper.map(requestDTO, Tag.class);
         Tag saved = this.tagRepositoryPort.save(tag);
         return this.modelMapper.map(saved, CreateTagResponseDTO.class);

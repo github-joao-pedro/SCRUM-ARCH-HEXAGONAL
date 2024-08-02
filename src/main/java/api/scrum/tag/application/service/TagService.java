@@ -36,23 +36,23 @@ public class TagService implements
     }
 
     @Override
-    public CreateTagResponseDTO createStatus(CreateTagRequestDTO requestDTO) {
-        return this.createTagUseCase.createStatus(requestDTO);
+    public CreateTagResponseDTO createTag(CreateTagRequestDTO requestDTO) {
+        return this.createTagUseCase.createTag(requestDTO);
     }
 
     @Override
-    public DeleteTagResponseDTO deleteStatus(DeleteTagRequestDTO requestDTO) {
-        return this.deleteTagUseCase.deleteStatus(requestDTO);
+    public DeleteTagResponseDTO deleteTag(DeleteTagRequestDTO requestDTO) {
+        return this.deleteTagUseCase.deleteTag(requestDTO);
     }
 
     @Override
-    public ReadTagResponseDTO readStatus(ReadTagRequestDTO requestDTO) {
-        return this.readTagUseCase.readStatus(requestDTO);
+    public ReadTagResponseDTO readTag(ReadTagRequestDTO requestDTO) {
+        return this.readTagUseCase.readTag(requestDTO);
     }
 
     @Override
-    public UpdateTagResponseDTO updateStatus(UpdateTagRequestDTO requestDTO) {
-        return this.updateTagUseCase.updateStatus(requestDTO);
+    public UpdateTagResponseDTO updateTag(UpdateTagRequestDTO requestDTO) {
+        return this.updateTagUseCase.updateTag(requestDTO);
     }
     
 }

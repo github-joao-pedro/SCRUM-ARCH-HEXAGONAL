@@ -33,21 +33,21 @@ public class TagController {
     
     @PostMapping
     public CreateTagResponseDTO create(@RequestBody CreateTagRequestDTO requestDTO) {
-        return this.tagService.createStatus(requestDTO);
+        return this.tagService.createTag(requestDTO);
     }
     @DeleteMapping
     public DeleteTagResponseDTO delete(@RequestParam(name = "id") UUID id) {
-        return this.tagService.deleteStatus(new DeleteTagRequestDTO(id));
+        return this.tagService.deleteTag(new DeleteTagRequestDTO(id));
     }
     @GetMapping
     public ReadTagResponseDTO read(
         @RequestParam(name = "id") UUID id,
         @RequestParam(name = "projectId") UUID projectId
     ) {
-        return this.tagService.readStatus(new ReadTagRequestDTO(id, projectId));
+        return this.tagService.readTag(new ReadTagRequestDTO(id, projectId));
     }
     @PutMapping
     public UpdateTagResponseDTO update(@RequestBody UpdateTagRequestDTO requestDTO) {
-        return this.tagService.updateStatus(requestDTO);
+        return this.tagService.updateTag(requestDTO);
     }
 }

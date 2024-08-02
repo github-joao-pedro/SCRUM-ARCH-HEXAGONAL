@@ -19,7 +19,7 @@ public class DeleteTagUseCaseImpl implements DeleteTagUseCase {
         this.modelMapper = modelMapper;
     }
     @Override
-    public DeleteTagResponseDTO deleteStatus(DeleteTagRequestDTO requestDTO) {
+    public DeleteTagResponseDTO deleteTag(DeleteTagRequestDTO requestDTO) {
         Tag tag = this.tagRepositoryPort.findById(requestDTO.getId())
             .orElseThrow(() -> new ApplicationException(404, "Tag not found", ""));
         this.tagRepositoryPort.delete(tag);

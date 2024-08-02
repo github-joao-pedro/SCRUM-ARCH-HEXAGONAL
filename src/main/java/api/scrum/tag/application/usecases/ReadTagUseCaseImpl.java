@@ -23,7 +23,7 @@ public class ReadTagUseCaseImpl implements ReadTagUseCase {
         this.modelMapper = modelMapper;
     }
     @Override
-    public ReadTagResponseDTO readStatus(ReadTagRequestDTO requestDTO) {
+    public ReadTagResponseDTO readTag(ReadTagRequestDTO requestDTO) {
         if (requestDTO.getId() != null) {
             Tag tag = this.tagRepositoryPort.findById(requestDTO.getId())
                 .orElseThrow(() -> new ApplicationException(404, "Tag not found", ""));
